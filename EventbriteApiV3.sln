@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.28803.156
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventbriteApiV3", "EventbriteApiV3\EventbriteApiV3.csproj", "{302DCE7F-0548-43CC-92F0-97B5FB0683C6}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventbriteApiV3Tests", "EventbriteApiV3Tests\EventbriteApiV3Tests.csproj", "{6CA54942-5C43-4205-8EE0-5D680CDC5A90}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{302DCE7F-0548-43CC-92F0-97B5FB0683C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{302DCE7F-0548-43CC-92F0-97B5FB0683C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{302DCE7F-0548-43CC-92F0-97B5FB0683C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{302DCE7F-0548-43CC-92F0-97B5FB0683C6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CA54942-5C43-4205-8EE0-5D680CDC5A90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CA54942-5C43-4205-8EE0-5D680CDC5A90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CA54942-5C43-4205-8EE0-5D680CDC5A90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CA54942-5C43-4205-8EE0-5D680CDC5A90}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {C7950AB8-8AD0-4169-88C7-96C2CAE144FB}
+	EndGlobalSection
+EndGlobal
