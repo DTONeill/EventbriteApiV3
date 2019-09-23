@@ -1,1 +1,11 @@
 .vs
+EventbriteApiV3/bin
+EventbriteApiV3/obj
+EventbriteApiV3/bin/*
+EventbriteApiV3/obj/*
+EventbriteApiV3/EventbriteApiV3.csproj.user
+
+EventbriteApiV3Tests/bin
+EventbriteApiV3Tests/obj
+EventbriteApiV3Tests/bin/*
+EventbriteApiV3Tests/obj/*

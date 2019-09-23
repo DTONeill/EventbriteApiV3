@@ -5,14 +5,24 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Wrapper in top of Eventbrite api v3. 
 It allow you to fetch attendees and events easily using your application key.</Description>
-    <PackageLicenseFile></PackageLicenseFile>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <PackageProjectUrl>https://github.com/DTONeill/EventbriteApiV3</PackageProjectUrl>
     <Company />
     <Authors>David O'Neill</Authors>
+    <RepositoryUrl>https://github.com/DTONeill/EventbriteApiV3</RepositoryUrl>
+    <PackageTags>eventbrite api events</PackageTags>
+    <PackageLicenseExpression></PackageLicenseExpression>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath></PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
