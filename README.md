@@ -17,12 +17,12 @@ var criterias = new EventSearchCriterias()
                 .StartAfter(DateTime.Now)
                 .OrderBy(EventSearchCriterias.SortOrder.Date);
 
-var eventsFirstPage = Context.GetEvents(criterias);
+var eventsFirstPage = eventbriteContext.GetEvents(criterias);
 
 if(eventsFirstPage.Pagination.PageCount > 2) {
 	criterias.Page(2);
 
-	var eventsSecondPage = Context.GetEvents(criterias);
+	var eventsSecondPage = eventbriteContext.GetEvents(criterias);
 }
 ```
 
@@ -34,5 +34,5 @@ var eventbriteContext = new EventbriteContext("Your API key");
 var criterias = new AttendeeSearchCriterias()
                 .Status(AttendeeSearchCriterias.AttendeeStatus.Attending);
 
-var result = Context.GetAttendees({event id});
+var result = eventbriteContext.GetAttendees({event id});
 ```
