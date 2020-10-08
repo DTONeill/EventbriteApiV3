@@ -1,5 +1,6 @@
 ﻿using EventbriteApiV3.Attendees;
 using EventbriteApiV3.Events;
+using System.Threading.Tasks;
 
 namespace EventbriteApiV3
 {
@@ -19,10 +20,18 @@ namespace EventbriteApiV3
         {
             return new EventSearchEventbriteRequest(this, searchCriterias).GetResponse();
         }
+        public  Task< EventsSearchApiResponse> GetEventsAsync(BaseSearchCriterias searchCriterias)
+        {
+            return (new EventSearchEventbriteRequest(this, searchCriterias)).GetResponseAsync();
+        }
 
         public AttendeeSearchApiResponse GetAttendees(double eventId, BaseSearchCriterias searchCriterias)
         {
             return new AttendeeSearchEventbriteRequest(this, eventId, searchCriterias).GetResponse();
+        }
+        public Task< AttendeeSearchApiResponse> GetAttendeesAsync(double eventId, BaseSearchCriterias searchCriterias)
+        {
+            return (new AttendeeSearchEventbriteRequest(this, eventId, searchCriterias)).GetResponseAsync();
         }
     }
 }

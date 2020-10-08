@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 using System.Web;
 
 namespace EventbriteApiV3
@@ -47,6 +48,18 @@ namespace EventbriteApiV3
             using (StreamReader sr = new StreamReader(stream))
             {
                 return sr.ReadToEnd();
+            }
+        }
+        protected async Task<string> GetJsonResponseAsync()
+        {
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
+            request.Headers.Add("authorization", $"Bearer {Context.AppKey}");
+            var response = await request.GetResponseAsync();
+
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader sr = new StreamReader(stream))
+            {
+                return await sr.ReadToEndAsync();
             }
         }
     }
