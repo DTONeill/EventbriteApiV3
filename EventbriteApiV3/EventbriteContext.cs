@@ -1,6 +1,6 @@
 ﻿using EventbriteApiV3.Attendees;
 using EventbriteApiV3.Events;
-using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace EventbriteApiV3
@@ -21,13 +21,37 @@ namespace EventbriteApiV3
         {
             return new EventSearchEventbriteRequest(this, searchCriterias).GetResponse();
         }
-        public  Task< EventsSearchApiResponse> GetEventsAsync(BaseSearchCriterias searchCriterias)
+        private async Task FillDescriptions(BaseSearchCriterias searchCriterias, IList<Event> events)
         {
-            return (new EventSearchEventbriteRequest(this, searchCriterias)).GetResponseAsync();
+            if (searchCriterias.RetrieveFullDescription)
+            {
+                foreach (var value in events)
+                {
+                    value.LongDescription =
+                        new Model.TextHtmlString
+                        {
+                            Html = (await (new EventDescriptionRequest(this, value.Id)).GetResponseAsync()).Description
+                        };
+                }
+            }
         }
-        public Task<EventsSearchApiResponse> GetEventsByOrganization(long organisationId, BaseSearchCriterias searchCriterias)
+        public async Task< EventsSearchApiResponse> GetEventsAsync(BaseSearchCriterias searchCriterias)
+        {
+            var values = await (new EventSearchEventbriteRequest(this, searchCriterias)).GetResponseAsync();
+            if (searchCriterias.RetrieveFullDescription)
+			{
+                await FillDescriptions(searchCriterias, values.Events);
+			}
+            return values;
+        }
+        public async Task<EventsSearchApiResponse> GetEventsByOrganization(long organisationId, BaseSearchCriterias searchCriterias)
 		{
-            return (new EventsOrganizationRequest(this, organisationId, searchCriterias)).GetResponseAsync();
+            var values = await (new EventsOrganizationRequest(this, organisationId, searchCriterias)).GetResponseAsync();
+            if (searchCriterias.RetrieveFullDescription)
+            {
+                await FillDescriptions(searchCriterias, values.Events);
+            }
+            return values;
 
         }
         public AttendeeSearchApiResponse GetAttendees(double eventId, BaseSearchCriterias searchCriterias)

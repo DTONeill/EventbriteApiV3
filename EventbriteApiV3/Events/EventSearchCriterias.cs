@@ -94,5 +94,10 @@ namespace EventbriteApiV3.Events
 
             return this;
         }
+        public EventSearchCriterias AddFullEventDescription()
+		{
+            RetrieveFullDescription = true;
+            return this;
+		}
     }
 }
