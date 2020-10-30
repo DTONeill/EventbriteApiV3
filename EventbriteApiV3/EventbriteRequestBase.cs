@@ -19,7 +19,7 @@ namespace EventbriteApiV3
             get
             {
                 var uri = new UriBuilder();
-                uri.Scheme = "https://";
+                uri.Scheme = Uri.UriSchemeHttps;
                 uri.Host = Context.Uri;
                 uri.Path = _path;
 

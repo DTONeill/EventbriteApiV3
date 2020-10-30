@@ -5,6 +5,10 @@ namespace EventbriteApiV3.Events
 {
     public class Event
     {
+        [JsonProperty("id")]
+        public long Id { get; set; }
+        [JsonProperty("category_id")]
+        public int? CategoryId { get; set; }
         [JsonProperty("name")]
         public TextHtmlString Name { get; set; }
 
