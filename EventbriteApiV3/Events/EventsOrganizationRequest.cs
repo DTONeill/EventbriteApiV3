@@ -16,7 +16,7 @@ namespace EventbriteApiV3.Events
 		{
 			using (var response = await GetStreamResponseAsync())
 			{
-				var jsonSerializer = JsonSerializer.CreateDefault(new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore})
+				var jsonSerializer = JsonSerializer.CreateDefault(new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
 
 				var result = jsonSerializer.Deserialize<EventsSearchApiResponse>(new JsonTextReader(response));
 				return result;
