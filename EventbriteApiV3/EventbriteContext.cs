@@ -38,19 +38,13 @@ namespace EventbriteApiV3
         public async Task< EventsSearchApiResponse> GetEventsAsync(BaseSearchCriterias searchCriterias)
         {
             var values = await (new EventSearchEventbriteRequest(this, searchCriterias)).GetResponseAsync();
-            if (searchCriterias.RetrieveFullDescription)
-			{
-                await FillDescriptions(searchCriterias, values.Events);
-			}
+            await FillDescriptions(searchCriterias, values.Events);
             return values;
         }
         public async Task<EventsSearchApiResponse> GetEventsByOrganization(long organisationId, BaseSearchCriterias searchCriterias)
 		{
             var values = await (new EventsOrganizationRequest(this, organisationId, searchCriterias)).GetResponseAsync();
-            if (searchCriterias.RetrieveFullDescription)
-            {
-                await FillDescriptions(searchCriterias, values.Events);
-            }
+            await FillDescriptions(searchCriterias, values.Events);
             return values;
 
         }
