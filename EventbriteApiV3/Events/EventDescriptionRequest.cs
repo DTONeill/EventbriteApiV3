@@ -14,10 +14,12 @@ namespace EventbriteApiV3.Events
 		}
 		public async Task<EventsDescriptionResponse> GetResponseAsync()
 		{
-			var response = await GetStreamResponseAsync();
-			var JsonSerializer = new JsonSerializer();
-			var result = JsonSerializer.Deserialize<EventsDescriptionResponse>(new JsonTextReader(response));
-			return result;
+			using (var response = await GetStreamResponseAsync())
+			{
+				var JsonSerializer = new JsonSerializer();
+				var result = JsonSerializer.Deserialize<EventsDescriptionResponse>(new JsonTextReader(response));
+				return result;
+			}
 		}
 	}
 }
