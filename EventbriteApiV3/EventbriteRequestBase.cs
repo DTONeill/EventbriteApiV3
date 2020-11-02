@@ -61,5 +61,11 @@ namespace EventbriteApiV3
                 return await sr.ReadToEndAsync();
             }
         }
+        protected  async Task<TextReader> GetStreamResponseAsync()
+        {
+            var request = WebRequest.Create(Url);
+            request.Headers.Add("authorization", $"Bearer {Context.AppKey}");
+            return new StreamReader((await  request.GetResponseAsync()).GetResponseStream());
+        }
     }
 }
