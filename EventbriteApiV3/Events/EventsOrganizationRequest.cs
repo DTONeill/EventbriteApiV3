@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 
 namespace EventbriteApiV3.Events
 {
-	public class EventsOrganizationRequest: EventbriteRequestBase
+	public class EventsOrganizationRequest : EventbriteRequestBase
 	{
 		private const string Path = "organizations/{0}/events/";
 		public EventsOrganizationRequest(EventbriteContext context, long organizationId, BaseSearchCriterias criterias)
@@ -18,8 +18,7 @@ namespace EventbriteApiV3.Events
 			{
 				var jsonSerializer = JsonSerializer.CreateDefault(new JsonSerializerSettings() { NullValueHandling = NullValueHandling.Ignore });
 
-				var result = jsonSerializer.Deserialize<EventsSearchApiResponse>(new JsonTextReader(response));
-				return result;
+				return jsonSerializer.Deserialize<EventsSearchApiResponse>(new JsonTextReader(response));
 			}
 		}
 	}

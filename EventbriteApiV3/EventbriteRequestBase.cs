@@ -41,7 +41,7 @@ namespace EventbriteApiV3
         protected string GetJsonResponse()
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-            request.Headers.Add("authorization", $"Bearer {Context.AppKey}");
+            request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {Context.AppKey}");
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             using (Stream stream = response.GetResponseStream())
@@ -53,9 +53,8 @@ namespace EventbriteApiV3
         protected async Task<string> GetJsonResponseAsync()
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-            request.Headers.Add("authorization", $"Bearer {Context.AppKey}");
+            request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {Context.AppKey}");
             var response = await request.GetResponseAsync();
-
             using (Stream stream = response.GetResponseStream())
             using (StreamReader sr = new StreamReader(stream))
             {
@@ -65,7 +64,7 @@ namespace EventbriteApiV3
         protected  async Task<TextReader> GetStreamResponseAsync()
         {
             var request = WebRequest.Create(Url);
-            request.Headers.Add("authorization", $"Bearer {Context.AppKey}");
+            request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {Context.AppKey}");
             return new StreamReader((await  request.GetResponseAsync()).GetResponseStream());
         }
     }
