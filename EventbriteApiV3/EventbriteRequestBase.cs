@@ -26,7 +26,6 @@ namespace EventbriteApiV3
                 var querystring = HttpUtility.ParseQueryString("");
                 querystring.Add(Query);
                 uri.Query = querystring.ToString();
-
                 return uri.Uri;
             }
         }

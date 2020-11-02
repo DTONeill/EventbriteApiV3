@@ -11,7 +11,7 @@
     <repository>https://github.com/DTONeill/EventbriteApiV3</repository>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <description>Wrapper in top of Eventbrite api v3. It allow you to fetch attendees and events easily using your application key.</description>
-    <releaseNotes>Initial 1.0.1 release</releaseNotes>
+    <releaseNotes>1.0.1 release includes async support</releaseNotes>
     <tags>eventbrite api events</tags>
     <dependencies>
       <dependency id="Newtonsoft.Json" version="12.0.2" />

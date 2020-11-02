@@ -20,7 +20,7 @@ namespace EventbriteApiV3
         {
             return new EventSearchEventbriteRequest(this, searchCriterias).GetResponse();
         }
-        public  Task< EventsSearchApiResponse> GetEventsAsync(BaseSearchCriterias searchCriterias)
+        public Task<EventsSearchApiResponse> GetEventsAsync(BaseSearchCriterias searchCriterias)
         {
             return (new EventSearchEventbriteRequest(this, searchCriterias)).GetResponseAsync();
         }
@@ -29,7 +29,7 @@ namespace EventbriteApiV3
         {
             return new AttendeeSearchEventbriteRequest(this, eventId, searchCriterias).GetResponse();
         }
-        public Task< AttendeeSearchApiResponse> GetAttendeesAsync(double eventId, BaseSearchCriterias searchCriterias)
+        public Task<AttendeeSearchApiResponse> GetAttendeesAsync(double eventId, BaseSearchCriterias searchCriterias)
         {
             return (new AttendeeSearchEventbriteRequest(this, eventId, searchCriterias)).GetResponseAsync();
         }
