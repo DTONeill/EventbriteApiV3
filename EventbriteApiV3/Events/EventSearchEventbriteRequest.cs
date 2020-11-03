@@ -18,6 +18,7 @@ namespace EventbriteApiV3.Events
             var response = GetJsonResponse();
             return JsonConvert.DeserializeObject<EventsSearchApiResponse>(response);
         }
+
         public async Task<EventsSearchApiResponse> GetResponseAsync()
         {
             var response = await GetJsonResponseAsync();

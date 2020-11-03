@@ -35,26 +35,24 @@ namespace EventbriteApiV3
                 }
             }
         }
+
         public async Task< EventsSearchApiResponse> GetEventsAsync(BaseSearchCriterias searchCriterias)
         {
             var values = await (new EventSearchEventbriteRequest(this, searchCriterias)).GetResponseAsync();
             await FillDescriptions(searchCriterias, values.Events);
             return values;
         }
-        public async Task<EventsSearchApiResponse> GetEventsByOrganization(long organisationId, BaseSearchCriterias searchCriterias)
-		{
-            var values = await (new EventsOrganizationRequest(this, organisationId, searchCriterias)).GetResponseAsync();
-            await FillDescriptions(searchCriterias, values.Events);
-            return values;
 
-        }
+        public Task<EventsSearchApiResponse> GetEventsByOrganization(long organisationId, BaseSearchCriterias searchCriterias)
+        {
+            return (new EventsOrganizationRequest(this, organisationId, searchCriterias)).GetResponseAsync();
+
         public AttendeeSearchApiResponse GetAttendees(double eventId, BaseSearchCriterias searchCriterias)
         {
             return new AttendeeSearchEventbriteRequest(this, eventId, searchCriterias).GetResponse();
         }
 
-
-		public Task< AttendeeSearchApiResponse> GetAttendeesAsync(double eventId, BaseSearchCriterias searchCriterias)
+        public Task<AttendeeSearchApiResponse> GetAttendeesAsync(double eventId, BaseSearchCriterias searchCriterias)
         {
             return (new AttendeeSearchEventbriteRequest(this, eventId, searchCriterias)).GetResponseAsync();
         }
