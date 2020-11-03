@@ -21,19 +21,22 @@ namespace EventbriteApiV3
         {
             return new EventSearchEventbriteRequest(this, searchCriterias).GetResponse();
         }
+
         public Task<EventsSearchApiResponse> GetEventsAsync(BaseSearchCriterias searchCriterias)
         {
             return (new EventSearchEventbriteRequest(this, searchCriterias)).GetResponseAsync();
         }
+	    
         public Task<EventsSearchApiResponse> GetEventsByOrganization(long organisationId, BaseSearchCriterias searchCriterias)
-		{
+	{
             return (new EventsOrganizationRequest(this, organisationId, searchCriterias)).GetResponseAsync();
-
         }
+
         public AttendeeSearchApiResponse GetAttendees(double eventId, BaseSearchCriterias searchCriterias)
         {
             return new AttendeeSearchEventbriteRequest(this, eventId, searchCriterias).GetResponse();
         }
+
         public Task<AttendeeSearchApiResponse> GetAttendeesAsync(double eventId, BaseSearchCriterias searchCriterias)
         {
             return (new AttendeeSearchEventbriteRequest(this, eventId, searchCriterias)).GetResponseAsync();
