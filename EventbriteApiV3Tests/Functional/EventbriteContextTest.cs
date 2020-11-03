@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Threading.Tasks;
 using EventbriteApiV3;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -27,9 +28,27 @@ namespace EventbriteApiV3Tests.Functional
         }
 
         [TestMethod]
+        public async Task ItShouldReturnAListOfAttendeeWhenGetAttendeesAsync()
+        {
+            var result = await Context.GetAttendeesAsync(FakeEventId, new BaseSearchCriterias());
+
+            Assert.AreNotEqual(result, null);
+            Assert.AreNotEqual(result.Pagination, null);
+            Assert.IsTrue(result.Attendees.Any());
+        }
+        [TestMethod]
         public void ItShouldReturnAListOfEventsWhenGetEvents()
         {
             var result = Context.GetEvents(new BaseSearchCriterias());
+
+            Assert.AreNotEqual(result, null);
+            Assert.AreNotEqual(result.Pagination, null);
+            Assert.IsTrue(result.Events.Any());
+        }
+        [TestMethod]
+        public async Task ItShouldReturnAListOfEventsWhenGetEventsAsync()
+        {
+            var result = await Context.GetEventsAsync(new BaseSearchCriterias());
 
             Assert.AreNotEqual(result, null);
             Assert.AreNotEqual(result.Pagination, null);
