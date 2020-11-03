@@ -50,6 +50,7 @@ namespace EventbriteApiV3
                 return sr.ReadToEnd();
             }
         }
+
         protected async Task<string> GetJsonResponseAsync()
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
@@ -62,6 +63,7 @@ namespace EventbriteApiV3
                 return await sr.ReadToEndAsync();
             }
         }
+
         protected  async Task<TextReader> GetStreamResponseAsync()
         {
             var request = WebRequest.Create(Url);
