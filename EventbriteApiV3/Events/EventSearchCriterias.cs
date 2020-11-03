@@ -94,6 +94,11 @@ namespace EventbriteApiV3.Events
 
             return this;
         }
+
+        /// <summary>
+        /// adds full / long description to event.
+        /// WARNING: this makes your api search call very slow.
+        /// </summary>
         public EventSearchCriterias AddFullEventDescription()
 		{
             RetrieveFullDescription = true;
