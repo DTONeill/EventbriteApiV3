@@ -36,10 +36,12 @@ namespace EventbriteApiV3
 
             return this;
         }
+        // note: should be on EventSearchCriteria but Context works on BaseSearchCriteria
         /// <summary>
         /// if set to true, will do an extra round trip to get the full event description
         /// </summary>
         internal bool RetrieveFullDescription { get; set; }
+
         public NameValueCollection ToNameValueCollection()
         {
             var collection = new NameValueCollection();

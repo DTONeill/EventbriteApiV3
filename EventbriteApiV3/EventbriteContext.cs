@@ -1,6 +1,7 @@
 ﻿using EventbriteApiV3.Attendees;
 using EventbriteApiV3.Events;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace EventbriteApiV3
@@ -25,18 +26,17 @@ namespace EventbriteApiV3
         {
             if (searchCriterias.RetrieveFullDescription)
             {
-                foreach (var value in events)
+                var tasks = events.Select(x => new EventDescriptionRequest(this, x.Id).GetResponseAsync()).ToArray();
+                await Task.WhenAll(tasks);
+                var descriptions = tasks.Select(async x => (await x).Description).ToArray();
+                for (var i = 0; i <= events.Count; i++)
                 {
-                    value.LongDescription =
-                        new Model.TextHtmlString
-                        {
-                            Html = (await (new EventDescriptionRequest(this, value.Id)).GetResponseAsync()).Description
-                        };
+                    events[i].LongDescription = new Model.TextHtmlString { Html = await descriptions[i] };
                 }
             }
         }
 
-        public async Task< EventsSearchApiResponse> GetEventsAsync(BaseSearchCriterias searchCriterias)
+        public async Task<EventsSearchApiResponse> GetEventsAsync(BaseSearchCriterias searchCriterias)
         {
             var values = await (new EventSearchEventbriteRequest(this, searchCriterias)).GetResponseAsync();
             await FillDescriptions(searchCriterias, values.Events);

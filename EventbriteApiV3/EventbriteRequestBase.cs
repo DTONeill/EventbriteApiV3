@@ -66,7 +66,7 @@ namespace EventbriteApiV3
         {
             var request = WebRequest.Create(Url);
             request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {Context.AppKey}");
-            return new StreamReader((await  request.GetResponseAsync()).GetResponseStream());
+            return new StreamReader((await request.GetResponseAsync()).GetResponseStream());
         }
     }
 }
