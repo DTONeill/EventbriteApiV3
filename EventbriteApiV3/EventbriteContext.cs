@@ -29,7 +29,7 @@ namespace EventbriteApiV3
                 var tasks = events.Select(x => new EventDescriptionRequest(this, x.Id).GetResponseAsync()).ToArray();
                 await Task.WhenAll(tasks);
                 var descriptions = tasks.Select(async x => (await x).Description).ToArray();
-                for (var i = 0; i <= events.Count; i++)
+                for (var i = 0; i < events.Count; i++)
                 {
                     events[i].LongDescription = new Model.TextHtmlString { Html = await descriptions[i] };
                 }
@@ -43,9 +43,11 @@ namespace EventbriteApiV3
             return values;
         }
 
-        public Task<EventsSearchApiResponse> GetEventsByOrganization(long organisationId, BaseSearchCriterias searchCriterias)
+        public async Task<EventsSearchApiResponse> GetEventsByOrganization(long organisationId, BaseSearchCriterias searchCriterias)
         {
-            return (new EventsOrganizationRequest(this, organisationId, searchCriterias)).GetResponseAsync();
+            var values = await (new EventsOrganizationRequest(this, organisationId, searchCriterias)).GetResponseAsync();
+            await FillDescriptions(searchCriterias, values.Events);
+            return values;
         }
 
         public AttendeeSearchApiResponse GetAttendees(double eventId, BaseSearchCriterias searchCriterias)
