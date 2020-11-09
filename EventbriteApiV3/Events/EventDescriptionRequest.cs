@@ -17,8 +17,7 @@ namespace EventbriteApiV3.Events
 			using (var response = await GetStreamResponseAsync())
 			{
 				var JsonSerializer = new JsonSerializer();
-				var result = JsonSerializer.Deserialize<EventsDescriptionResponse>(new JsonTextReader(response));
-				return result;
+				return JsonSerializer.Deserialize<EventsDescriptionResponse>(new JsonTextReader(response));
 			}
 		}
 	}
