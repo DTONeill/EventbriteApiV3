@@ -1,7 +1,11 @@
 ﻿using EventbriteApiV3.Attendees;
 using EventbriteApiV3.Events;
+using EventbriteApiV3.Helpers;
+using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EventbriteApiV3
@@ -26,12 +30,17 @@ namespace EventbriteApiV3
         {
             if (searchCriterias.RetrieveFullDescription)
             {
-                var tasks = events.Select(x => new EventDescriptionRequest(this, x.Id).GetResponseAsync()).ToArray();
-                await Task.WhenAll(tasks);
-                var descriptions = tasks.Select(async x => (await x).Description).ToArray();
-                for (var i = 0; i < events.Count; i++)
+                try
                 {
-                    events[i].LongDescription = new Model.TextHtmlString { Html = await descriptions[i] };
+                    //note: we cannot request a lot of
+                    // parrallel requests on most api's
+                    // that is considered 'rude' and often is throttled down.
+                    var tasks = events.Select(x => new { x, DescriptionTask = new EventDescriptionRequest(this, x.Id).GetResponseAsync() });
+                    await tasks.ForEachAsync(4, async (x) => x.x.LongDescription = new Model.TextHtmlString { Html = (await x.DescriptionTask).Description });
+                }
+                catch (Exception ex)
+                {
+                    Trace.TraceError("FillDescriptions failed with {0}", ex);
                 }
             }
         }
