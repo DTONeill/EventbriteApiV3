@@ -35,5 +35,14 @@ namespace EventbriteApiV3.Events
 
         [JsonProperty("logo")]
         public Logo Logo { get; set; }
+
+        /// <summary>
+        /// location/ venue reference
+        /// </summary>
+        [JsonProperty("venue_id")]
+        internal long? VenueId { get; set; }
+
+        [JsonProperty("venue")]
+        public Venue Venue { get; set; }
     }
 }

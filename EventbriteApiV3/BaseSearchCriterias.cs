@@ -42,6 +42,9 @@ namespace EventbriteApiV3
         /// </summary>
         internal bool RetrieveFullDescription { get; set; }
 
+        // note: should be on EventSearchCriteria but Context works on BaseSearchCriteria
+        internal bool RetrieveVenueInformation { get; set; }
+
         public NameValueCollection ToNameValueCollection()
         {
             var collection = new NameValueCollection();
