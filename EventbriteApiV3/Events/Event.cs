@@ -15,6 +15,9 @@ namespace EventbriteApiV3.Events
         [JsonProperty("description")]
         public TextHtmlString Description { get; set; }
 
+        [JsonProperty("summary")]
+        public string Summary { get; set; }
+
         [JsonProperty("long_description")]
         public TextHtmlString LongDescription { get; set; }
 
@@ -44,5 +47,11 @@ namespace EventbriteApiV3.Events
 
         [JsonProperty("venue")]
         public Venue Venue { get; set; }
+
+        /// <summary>
+        /// true if the event is online only
+        /// </summary>
+        [JsonProperty("online_event")]
+        public bool? OnlineEvent { get; set; }
     }
 }
