@@ -37,7 +37,7 @@ namespace EventbriteApiV3
                     // parrallel requests on most api's
                     // that is considered 'rude' and often is throttled down.
                     var tasks = events.Select(x => new { x, DescriptionTask = new EventDescriptionRequest(this, x.Id).GetResponseAsync() });
-                    await tasks.ForEachAsync(4, async (x) => x.x.LongDescription = new Model.TextHtmlString { Html = (await x.DescriptionTask).Description });
+                    await tasks.ForEachAsync(3, async (x) => x.x.LongDescription = new Model.TextHtmlString { Html = (await x.DescriptionTask).Description });
                 }
                 catch (Exception ex)
                 {
@@ -58,7 +58,7 @@ namespace EventbriteApiV3
                 {
                     var tasks = venueIds.Select(x => new { key = x, VenueTask = new VenueRequest(this, x).GetResponseAsync() });
                     var concurrentDict = new ConcurrentDictionary<long, Venue>();
-                    await tasks.ForEachAsync(4, async (x) =>
+                    await tasks.ForEachAsync(3, async (x) =>
                     {
                         try
                         {
