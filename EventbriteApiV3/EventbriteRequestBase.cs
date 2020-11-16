@@ -2,6 +2,7 @@
 using System.Collections.Specialized;
 using System.IO;
 using System.Net;
+using System.Net.Http;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -19,7 +20,7 @@ namespace EventbriteApiV3
             get
             {
                 var uri = new UriBuilder();
-                uri.Scheme = "https://";
+                uri.Scheme = Uri.UriSchemeHttps;
                 uri.Host = Context.Uri;
                 uri.Path = _path;
 
@@ -40,7 +41,8 @@ namespace EventbriteApiV3
         protected string GetJsonResponse()
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-            request.Headers.Add("authorization", $"Bearer {Context.AppKey}");
+            request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {Context.AppKey}");
+            request.Headers.Add(HttpRequestHeader.ContentType, "application/json");
             HttpWebResponse response = (HttpWebResponse)request.GetResponse();
 
             using (Stream stream = response.GetResponseStream())
@@ -53,9 +55,9 @@ namespace EventbriteApiV3
         protected async Task<string> GetJsonResponseAsync()
         {
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-            request.Headers.Add("authorization", $"Bearer {Context.AppKey}");
+            request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {Context.AppKey}");
+            request.Headers.Add(HttpRequestHeader.ContentType, "application/json");
             var response = await request.GetResponseAsync();
-
             using (Stream stream = response.GetResponseStream())
             using (StreamReader sr = new StreamReader(stream))
             {
@@ -66,8 +68,9 @@ namespace EventbriteApiV3
         protected  async Task<TextReader> GetStreamResponseAsync()
         {
             var request = WebRequest.Create(Url);
-            request.Headers.Add("authorization", $"Bearer {Context.AppKey}");
-            return new StreamReader((await  request.GetResponseAsync()).GetResponseStream());
+            request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {Context.AppKey}");
+            request.Headers.Add(HttpRequestHeader.ContentType, "application/json");
+            return new StreamReader((await request.GetResponseAsync()).GetResponseStream());
         }
     }
 }
