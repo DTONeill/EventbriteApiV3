@@ -11,7 +11,7 @@ namespace EventbriteApiV3
 
         public BaseSearchCriterias() : this(new Dictionary<string, string>())
         {
-            
+
         }
 
         private BaseSearchCriterias(Dictionary<string, string> criterias)
@@ -33,9 +33,17 @@ namespace EventbriteApiV3
         {
             Criterias.Remove(key);
             Criterias.Add(key, value);
-            
+
             return this;
         }
+        // note: should be on EventSearchCriteria but Context works on BaseSearchCriteria
+        /// <summary>
+        /// if set to true, will do an extra round trip to get the full event description
+        /// </summary>
+        internal bool RetrieveFullDescription { get; set; }
+
+        // note: should be on EventSearchCriteria but Context works on BaseSearchCriteria
+        internal bool RetrieveVenueInformation { get; set; }
 
         public NameValueCollection ToNameValueCollection()
         {
