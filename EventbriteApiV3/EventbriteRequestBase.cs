@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Specialized;
 using System.IO;
-using System.Net;
+using System.Linq;
 using System.Net.Http;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -14,16 +15,15 @@ namespace EventbriteApiV3
 
         protected readonly NameValueCollection Query;
         private readonly string _path;
-
         public Uri Url
         {
             get
             {
-                var uri = new UriBuilder();
-                uri.Scheme = Uri.UriSchemeHttps;
-                uri.Host = Context.Uri;
-                uri.Path = _path;
-
+                //should be www.eventbrite.com/v3 e.g.
+                var hostPath = Context.Uri.Split('/');
+                var host = hostPath[0];
+                var version = hostPath[1];
+                var uri = new UriBuilder(Uri.UriSchemeHttps, host, 443,$"{version}/{_path}");
                 var querystring = HttpUtility.ParseQueryString("");
                 querystring.Add(Query);
                 uri.Query = querystring.ToString();
@@ -37,40 +37,14 @@ namespace EventbriteApiV3
             Query = query ?? new NameValueCollection();
             _path = path;
         }
-
-        protected string GetJsonResponse()
+        protected  async Task<Stream> GetStreamResponseAsync(CancellationToken cancellationToken = default)
         {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-            request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {Context.AppKey}");
-            request.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            using var req = new HttpRequestMessage(HttpMethod.Get, Url);
+            req.Headers.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", Context.AppKey);
+            req.Headers.Accept.Add(new System.Net.Http.Headers.MediaTypeWithQualityHeaderValue("application/json"));
+            var response = await Context._httpClient.SendAsync(req, cancellationToken);
 
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader sr = new StreamReader(stream))
-            {
-                return sr.ReadToEnd();
-            }
-        }
-
-        protected async Task<string> GetJsonResponseAsync()
-        {
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(Url);
-            request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {Context.AppKey}");
-            request.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-            var response = await request.GetResponseAsync();
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader sr = new StreamReader(stream))
-            {
-                return await sr.ReadToEndAsync();
-            }
-        }
-
-        protected  async Task<TextReader> GetStreamResponseAsync()
-        {
-            var request = WebRequest.Create(Url);
-            request.Headers.Add(HttpRequestHeader.Authorization, $"Bearer {Context.AppKey}");
-            request.Headers.Add(HttpRequestHeader.ContentType, "application/json");
-            return new StreamReader((await request.GetResponseAsync()).GetResponseStream());
+            return await response.Content.ReadAsStreamAsync();
         }
     }
 }

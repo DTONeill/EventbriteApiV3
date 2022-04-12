@@ -1,5 +1,6 @@
 ﻿using System.Threading.Tasks;
-using Newtonsoft.Json;
+using System.Text.Json;
+using System.Threading;
 
 namespace EventbriteApiV3.Events
 {
@@ -7,18 +8,16 @@ namespace EventbriteApiV3.Events
 	{
 
 		private const string Path = "events/{0}/description/";
-		public EventDescriptionRequest(EventbriteContext context, long eventId)
+		public EventDescriptionRequest(EventbriteContext context, string eventId)
 			: base(string.Format(Path, eventId), context)
 		{
 
 		}
-		public async Task<EventsDescriptionResponse> GetResponseAsync()
+		public async Task<EventsDescriptionResponse> GetResponseAsync(CancellationToken token)
 		{
-			using (var response = await GetStreamResponseAsync())
-			{
-				var JsonSerializer = new JsonSerializer();
-				return JsonSerializer.Deserialize<EventsDescriptionResponse>(new JsonTextReader(response));
-			}
+			using var str = await GetStreamResponseAsync();
+			return await JsonSerializer.DeserializeAsync<EventsDescriptionResponse>(str, cancellationToken:token);
+			
 		}
 	}
 }

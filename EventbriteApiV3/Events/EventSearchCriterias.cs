@@ -99,10 +99,10 @@ namespace EventbriteApiV3.Events
         /// adds full / long description to event.
         /// </summary>
         public EventSearchCriterias AddFullEventDescription()
-		{
+        {
             RetrieveFullDescription = true;
             return this;
-		}
+        }
 
         /// <summary>
         /// adds venue information to event.

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using Newtonsoft.Json;
+using System.Text.Json;
 
 namespace EventbriteApiV3.Attendees
 {
@@ -40,9 +40,9 @@ namespace EventbriteApiV3.Attendees
             return Add(StatusKey, statusValue);
         }
 
-        public AttendeeSearchCriterias Attendees(List<double> ids)
+        public AttendeeSearchCriterias Attendees(ICollection<double> ids)
         {
-            return Add(AttendeesKey, JsonConvert.SerializeObject(ids));
+            return Add(AttendeesKey, JsonSerializer.Serialize(ids));
         }
 
         public new AttendeeSearchCriterias Add(string key, string value)

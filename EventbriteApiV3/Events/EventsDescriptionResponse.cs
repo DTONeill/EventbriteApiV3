@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace EventbriteApiV3.Events
 {
@@ -7,7 +7,7 @@ namespace EventbriteApiV3.Events
 		/// <summary>
 		/// description containing html markup
 		/// </summary>
-		[JsonProperty("description")]
+		[JsonPropertyName("description")]
 		public string Description { get; set; }
 	}
 }

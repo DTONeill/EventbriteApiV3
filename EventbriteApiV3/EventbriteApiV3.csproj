@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFramework>netstandard2.1</TargetFramework>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <Description>Wrapper in top of Eventbrite api v3. 
 It allow you to fetch attendees and events easily using your application key.</Description>
@@ -15,14 +15,14 @@ It allow you to fetch attendees and events easily using your application key.</D
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="12.0.2" />
-  </ItemGroup>
-
-  <ItemGroup>
     <None Include="..\LICENSE">
       <Pack>True</Pack>
       <PackagePath></PackagePath>
     </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Text.Json" Version="6.0.3" />
   </ItemGroup>
 
 </Project>

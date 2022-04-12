@@ -1,16 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace EventbriteApiV3.Model
 {
     public class Pagination
     {
-        [JsonProperty("page_number")]
+        [JsonPropertyName("page_number")]
         public int PageNumber { get; set; }
 
-        [JsonProperty("page_count")]
+        [JsonPropertyName("page_count")]
         public int PageCount { get; set; }
 
-        [JsonProperty("object_count")]
+        [JsonPropertyName("object_count")]
         public int TotalCount { get; set; }
     }
 }

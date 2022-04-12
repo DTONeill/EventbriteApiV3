@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace EventbriteApiV3.Events
@@ -13,16 +14,11 @@ namespace EventbriteApiV3.Events
 
         }
 
-        public EventsSearchApiResponse GetResponse()
+     
+        public async Task<EventsSearchApiResponse> GetResponseAsync(CancellationToken token = default)
         {
-            var response = GetJsonResponse();
-            return JsonConvert.DeserializeObject<EventsSearchApiResponse>(response);
-        }
-
-        public async Task<EventsSearchApiResponse> GetResponseAsync()
-        {
-            var response = await GetJsonResponseAsync();
-            return JsonConvert.DeserializeObject<EventsSearchApiResponse>(response);
+            using var str = await GetStreamResponseAsync(token);
+            return await JsonSerializer.DeserializeAsync<EventsSearchApiResponse>(str, cancellationToken: token);
         }
     }
 }

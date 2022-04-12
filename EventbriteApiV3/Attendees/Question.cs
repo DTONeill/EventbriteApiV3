@@ -1,19 +1,19 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace EventbriteApiV3.Attendees
 {
     public class Question
     {
-        [JsonProperty("id")]
+        [JsonPropertyName("id")]
         public string Id { get; set; }
 
-        [JsonProperty("label")]
+        [JsonPropertyName("label")]
         public string Label { get; set; }
 
-        [JsonProperty("type")]
+        [JsonPropertyName("type")]
         public string Type { get; set; }
 
-        [JsonProperty("required")]
+        [JsonPropertyName("required")]
         public bool Required { get; set; }
     }
 }

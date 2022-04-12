@@ -1,34 +1,37 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace EventbriteApiV3.Events
 {
-	/// <summary>
-	/// descripes a venue/location for an event
-	/// </summary>
+    /// <summary>
+    /// descripes a venue/location for an event
+    /// </summary>
     public class Venue
-	{
-		[JsonProperty("id")]
-		public string Id { get; set; }
+    {
+        [JsonPropertyName("id")]
+        public string Id { get; set; }
 
-		[JsonProperty("address")]
-		public Address Address { get; set; }
+        [JsonPropertyName("address")]
+        public Address Address { get; set; }
 
-		[JsonProperty("age_restriction")]
-		public string AgeRestriction { get; set; }
+        [JsonPropertyName("age_restriction")]
+        public string AgeRestriction { get; set; }
 
-		[JsonProperty("capacity")]
-		public int? Capacity { get; set; }
+        [JsonPropertyName("capacity")]
+        public int? Capacity { get; set; }
 
-		[JsonProperty("name")]
-		public string Name { get; set; }
+        [JsonPropertyName("capacity_is_custom")]
+        public bool CapcityIsCustom { get; set; }
 
-		[JsonProperty("latitude")]
-		public double? Latitude { get; set; }
+        [JsonPropertyName("name")]
+        public string Name { get; set; }
 
-		[JsonProperty("longitude")]
-		public double? Longitude { get; set; }
+        [JsonPropertyName("latitude")]
+        public double? Latitude { get; set; }
 
-		[JsonProperty("resource_uri")]
-		internal string ResourceUri { get; set; }
-	}
+        [JsonPropertyName("longitude")]
+        public double? Longitude { get; set; }
+
+        [JsonPropertyName("resource_uri")]
+        internal string ResourceUri { get; set; }
+    }
 }

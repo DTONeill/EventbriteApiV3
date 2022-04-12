@@ -1,52 +1,52 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace EventbriteApiV3.Attendees
 {
     public class Profile
     {
-        [JsonProperty("name")]
+        [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        [JsonProperty("email")]
+        [JsonPropertyName("email")]
         public string Email { get; set; }
 
-        [JsonProperty("first_name")]
+        [JsonPropertyName("first_name")]
         public string Firstname { get; set; }
 
-        [JsonProperty("last_name")]
+        [JsonPropertyName("last_name")]
         public string Lastname { get; set; }
 
-        [JsonProperty("prefix")]
+        [JsonPropertyName("prefix")]
         public string Prefix { get; set; }
 
-        [JsonProperty("suffix")]
+        [JsonPropertyName("suffix")]
         public string Suffix { get; set; }
 
-        [JsonProperty("age")]
+        [JsonPropertyName("age")]
         public int Age { get; set; }
 
-        [JsonProperty("job_title")]
+        [JsonPropertyName("job_title")]
         public string JobTitle { get; set; }
 
-        [JsonProperty("company")]
+        [JsonPropertyName("company")]
         public string Company { get; set; }
 
-        [JsonProperty("website")]
+        [JsonPropertyName("website")]
         public string Website { get; set; }
 
-        [JsonProperty("blog")]
+        [JsonPropertyName("blog")]
         public string Blog { get; set; }
 
-        [JsonProperty("gender")]
+        [JsonPropertyName("gender")]
         public string Gender { get; set; }
 
-        [JsonProperty("birth_date")]
+        [JsonPropertyName("birth_date")]
         public string Birthdate { get; set; }
 
-        [JsonProperty("cellphone")]
+        [JsonPropertyName("cellphone")]
         public string Cellphone { get; set; }
 
-        [JsonProperty("work_phone")]
+        [JsonPropertyName("work_phone")]
         public string Workphone { get; set; }
     }
 }

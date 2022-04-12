@@ -1,13 +1,13 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace EventbriteApiV3.Model
 {
     public class TextHtmlString
     {
-        [JsonProperty("text")]
+        [JsonPropertyName("text")]
         public string Text { get; set; }
 
-        [JsonProperty("html")]
+        [JsonPropertyName("html")]
         public string Html { get; set; }
     }
 }

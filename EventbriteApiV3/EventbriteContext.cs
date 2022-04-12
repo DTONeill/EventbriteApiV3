@@ -6,6 +6,7 @@ using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,18 +17,19 @@ namespace EventbriteApiV3
         public readonly string AppKey;
         public readonly string Uri;
         private const string ProdUri = "www.eventbriteapi.com/v3";
-
-        public EventbriteContext(string appKey, string uri = ProdUri)
+        public readonly HttpMessageInvoker _httpClient;
+        public EventbriteContext(HttpClient httpClient, string appKey, string uri = ProdUri)
         {
             AppKey = appKey;
             Uri = uri;
+            _httpClient = httpClient;
         }
 
-        public EventsSearchApiResponse GetEvents(BaseSearchCriterias searchCriterias)
+        public async Task< EventsSearchApiResponse> GetEvents(BaseSearchCriterias searchCriterias)
         {
-            return new EventSearchEventbriteRequest(this, searchCriterias).GetResponse();
+            return await (new EventSearchEventbriteRequest(this, searchCriterias)).GetResponseAsync();
         }
-        private async Task FillDescriptions(BaseSearchCriterias searchCriterias, IList<Event> events)
+        public async Task FillDescriptions(BaseSearchCriterias searchCriterias, IList<Event> events, CancellationToken token = default)
         {
             if (searchCriterias.RetrieveFullDescription)
             {
@@ -36,7 +38,7 @@ namespace EventbriteApiV3
                     //note: we cannot request a lot of
                     // parrallel requests on most api's
                     // that is considered 'rude' and often is throttled down.
-                    var tasks = events.Select(x => new { x, DescriptionTask = new EventDescriptionRequest(this, x.Id).GetResponseAsync() });
+                    var tasks = events.Select(x => new { x, DescriptionTask = ( new EventDescriptionRequest(this, x.Id).GetResponseAsync(token)) });
                     await tasks.ForEachAsync(4, async (x) => x.x.LongDescription = new Model.TextHtmlString { Html = (await x.DescriptionTask).Description });
                 }
                 catch (Exception ex)
@@ -46,18 +48,18 @@ namespace EventbriteApiV3
             }
         }
 
-        private async Task FillVenues(BaseSearchCriterias searchCriterias, IList<Event> events)
+        public async Task FillVenues(BaseSearchCriterias searchCriterias, IList<Event> events)
         {
             if (searchCriterias.RetrieveVenueInformation)
             {
                 var venueIds = events
                     .Where(w => w.VenueId != null)
-                    .Select(s => s.VenueId.Value).Distinct().ToArray();
+                    .Select(s => s.VenueId).Distinct().ToArray();
 
                 try
                 {
                     var tasks = venueIds.Select(x => new { key = x, VenueTask = new VenueRequest(this, x).GetResponseAsync() });
-                    var concurrentDict = new ConcurrentDictionary<long, Venue>();
+                    var concurrentDict = new ConcurrentDictionary<string, Venue>();
                     await tasks.ForEachAsync(4, async (x) =>
                     {
                         try
@@ -66,15 +68,15 @@ namespace EventbriteApiV3
                             concurrentDict.TryAdd(x.key, venue);
                         }
                         catch(Exception ex)
-						{
+                        {
                             Trace.TraceError($"Cannot associate venueid {x.key} with retrieved object {ex.Message}");
-						}
+                        }
                     });
                     foreach (var @event in events)
                     {
                         if (@event.VenueId != null)
                         {
-                            concurrentDict.TryGetValue(@event.VenueId.Value, out Venue venue);
+                            concurrentDict.TryGetValue(@event.VenueId, out Venue venue);
                             @event.Venue = venue;
                         }
                     }
@@ -100,11 +102,6 @@ namespace EventbriteApiV3
             await FillDescriptions(searchCriterias, values.Events);
             await FillVenues(searchCriterias, values.Events);
             return values;
-        }
-
-        public AttendeeSearchApiResponse GetAttendees(double eventId, BaseSearchCriterias searchCriterias)
-        {
-            return new AttendeeSearchEventbriteRequest(this, eventId, searchCriterias).GetResponse();
         }
 
         public Task<AttendeeSearchApiResponse> GetAttendeesAsync(double eventId, BaseSearchCriterias searchCriterias)
