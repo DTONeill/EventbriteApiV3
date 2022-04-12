@@ -18,9 +18,9 @@ namespace EventbriteApiV3.Attendees
         public Profile Profile { get; set; }
 
         [JsonPropertyName("questions")]
-        public List<Question> Questions { get; set; }
+        public ICollection<Question> Questions { get; set; }
 
         [JsonPropertyName("answers")]
-        public List<Answer> Answers { get; set; }
+        public ICollection<Answer> Answers { get; set; }
     }
 }

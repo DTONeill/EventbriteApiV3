@@ -5,7 +5,6 @@ using System.Linq;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 
 namespace EventbriteApiV3
 {
@@ -23,11 +22,10 @@ namespace EventbriteApiV3
                 var hostPath = Context.Uri.Split('/');
                 var host = hostPath[0];
                 var version = hostPath[1];
-                var uri = new UriBuilder(Uri.UriSchemeHttps, host, 443,$"{version}/{_path}");
-                var querystring = HttpUtility.ParseQueryString("");
-                querystring.Add(Query);
-                uri.Query = querystring.ToString();
-                return uri.Uri;
+                return new UriBuilder(Uri.UriSchemeHttps, host, 443, $"{version}/{_path}")
+                {
+                    Query = string.Join('&', Query.AllKeys.Select(s => string.Concat(Uri.UnescapeDataString(s), "=", Uri.UnescapeDataString(Query[s]))))
+                }.Uri;
             }
         }
 
