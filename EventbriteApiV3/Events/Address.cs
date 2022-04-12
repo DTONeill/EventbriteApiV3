@@ -5,10 +5,10 @@ namespace EventbriteApiV3.Events
 {
 	public class Address
 	{
-		[JsonPropertyName("address1")]
+		[JsonPropertyName("address_1")]
 		public string Line1 { get; set; }
 
-		[JsonPropertyName("address2")]
+		[JsonPropertyName("address_2")]
 		public string Line2 { get; set; }
 
 		[JsonPropertyName("city")]
@@ -27,10 +27,12 @@ namespace EventbriteApiV3.Events
 		public string Country { get; set; }
 
 		[JsonPropertyName("latitude")]
-		public double? Latitude { get; set; }
-
+		public string Latitude { get; set; }
+		/// <summary>
+		/// "-122.5078119"
+		/// </summary>
 		[JsonPropertyName("longitude")]
-		public double? Longitude { get; set; }
+		public string Longitude { get; set; }
 
 		[JsonPropertyName("localized_address_display")]
 		public string LocalizedAddressDisplay { get; set; }

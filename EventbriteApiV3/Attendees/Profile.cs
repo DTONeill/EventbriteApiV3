@@ -43,7 +43,7 @@ namespace EventbriteApiV3.Attendees
         [JsonPropertyName("birth_date")]
         public string Birthdate { get; set; }
 
-        [JsonPropertyName("cellphone")]
+        [JsonPropertyName("cell_phone")]
         public string Cellphone { get; set; }
 
         [JsonPropertyName("work_phone")]
