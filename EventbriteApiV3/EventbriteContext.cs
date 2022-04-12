@@ -29,7 +29,7 @@ namespace EventbriteApiV3
         {
             return await (new EventSearchEventbriteRequest(this, searchCriterias)).GetResponseAsync();
         }
-        public async Task FillDescriptions(BaseSearchCriterias searchCriterias, IList<Event> events, CancellationToken token = default)
+        public async Task FillDescriptions(BaseSearchCriterias searchCriterias, ICollection<Event> events, CancellationToken token = default)
         {
             if (searchCriterias.RetrieveFullDescription)
             {
@@ -48,7 +48,7 @@ namespace EventbriteApiV3
             }
         }
 
-        public async Task FillVenues(BaseSearchCriterias searchCriterias, IList<Event> events)
+        public async Task FillVenues(BaseSearchCriterias searchCriterias, ICollection<Event> events)
         {
             if (searchCriterias.RetrieveVenueInformation)
             {
