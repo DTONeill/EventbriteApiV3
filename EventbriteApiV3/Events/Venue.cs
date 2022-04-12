@@ -26,10 +26,10 @@ namespace EventbriteApiV3.Events
         public string Name { get; set; }
 
         [JsonPropertyName("latitude")]
-        public double? Latitude { get; set; }
+        public string Latitude { get; set; }
 
         [JsonPropertyName("longitude")]
-        public double? Longitude { get; set; }
+        public string Longitude { get; set; }
 
         [JsonPropertyName("resource_uri")]
         internal string ResourceUri { get; set; }
