@@ -29,7 +29,7 @@ namespace EventbriteApiV3
         {
             return await (new EventSearchEventbriteRequest(this, searchCriterias)).GetResponseAsync();
         }
-        public async Task FillDescriptions(BaseSearchCriterias searchCriterias, ICollection<Event> events, CancellationToken token = default)
+        private async Task FillDescriptions(BaseSearchCriterias searchCriterias, ICollection<Event> events, CancellationToken token = default)
         {
             if (searchCriterias.RetrieveFullDescription)
             {
@@ -48,51 +48,11 @@ namespace EventbriteApiV3
             }
         }
 
-        public async Task FillVenues(BaseSearchCriterias searchCriterias, ICollection<Event> events)
-        {
-            if (searchCriterias.RetrieveVenueInformation)
-            {
-                var venueIds = events
-                    .Where(w => w.VenueId != null)
-                    .Select(s => s.VenueId).Distinct().ToArray();
-
-                try
-                {
-                    var tasks = venueIds.Select(x => new { key = x, VenueTask = new VenueRequest(this, x).GetResponseAsync() });
-                    var concurrentDict = new ConcurrentDictionary<string, Venue>();
-                    await tasks.ForEachAsync(4, async (x) =>
-                    {
-                        try
-                        {
-                            var venue = await x.VenueTask;
-                            concurrentDict.TryAdd(x.key, venue);
-                        }
-                        catch(Exception ex)
-                        {
-                            Trace.TraceError($"Cannot associate venueid {x.key} with retrieved object {ex.Message}");
-                        }
-                    });
-                    foreach (var @event in events)
-                    {
-                        if (@event.VenueId != null)
-                        {
-                            concurrentDict.TryGetValue(@event.VenueId, out Venue venue);
-                            @event.Venue = venue;
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    Trace.TraceError("FillVenues failed with {0}", ex);
-                }
-            }
-        }
-
         public async Task<EventsSearchApiResponse> GetEventsAsync(BaseSearchCriterias searchCriterias)
         {
             var values = await (new EventSearchEventbriteRequest(this, searchCriterias)).GetResponseAsync();
             await FillDescriptions(searchCriterias, values.Events);
-            await FillVenues(searchCriterias, values.Events);
+          
             return values;
         }
 
@@ -100,7 +60,6 @@ namespace EventbriteApiV3
         {
             var values = await (new EventsOrganizationRequest(this, organisationId, searchCriterias)).GetResponseAsync();
             await FillDescriptions(searchCriterias, values.Events);
-            await FillVenues(searchCriterias, values.Events);
             return values;
         }
 
