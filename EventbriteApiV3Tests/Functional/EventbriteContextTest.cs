@@ -1,4 +1,5 @@
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 using EventbriteApiV3;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -14,19 +15,11 @@ namespace EventbriteApiV3Tests.Functional
 
         public EventbriteContextTest()
         {
-            Context = new EventbriteContext(FakeAppKey, Constants.MockServerUrl);
+            //TODO
+            Context = new EventbriteContext(Mockup.GetMyHandler(""), FakeAppKey, Constants.MockServerUrl);
         }
 
-        [TestMethod]
-        public void ItShouldReturnAListOfAttendeeWhenGetAttendees()
-        {
-            var result = Context.GetAttendees(FakeEventId, new BaseSearchCriterias());
-
-            Assert.AreNotEqual(result, null);
-            Assert.AreNotEqual(result.Pagination, null);
-            Assert.IsTrue(result.Attendees.Any());
-        }
-
+       //TODO
         [TestMethod]
         public async Task ItShouldReturnAListOfAttendeeWhenGetAttendeesAsync()
         {
@@ -37,22 +30,17 @@ namespace EventbriteApiV3Tests.Functional
             Assert.IsTrue(result.Attendees.Any());
         }
         [TestMethod]
-        public void ItShouldReturnAListOfEventsWhenGetEvents()
+        public async Task ItShouldReturnAListOfEventsWhenGetEvents()
         {
-            var result = Context.GetEvents(new BaseSearchCriterias());
+            var source = await System.IO.File.ReadAllTextAsync("Resources/events.json");
+            Context = new EventbriteContext(Mockup.GetMyHandler(source), FakeAppKey, Constants.MockServerUrl);
 
-            Assert.AreNotEqual(result, null);
-            Assert.AreNotEqual(result.Pagination, null);
+            var result = await Context.GetEvents(new BaseSearchCriterias());
+
+            Assert.IsNotNull(result);
+            Assert.IsNotNull(result.Pagination);
             Assert.IsTrue(result.Events.Any());
         }
-        [TestMethod]
-        public async Task ItShouldReturnAListOfEventsWhenGetEventsAsync()
-        {
-            var result = await Context.GetEventsAsync(new BaseSearchCriterias());
-
-            Assert.AreNotEqual(result, null);
-            Assert.AreNotEqual(result.Pagination, null);
-            Assert.IsTrue(result.Events.Any());
-        }
+       
     }
 }

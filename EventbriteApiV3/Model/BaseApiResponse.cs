@@ -1,10 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json.Serialization;
 
 namespace EventbriteApiV3.Model
 {
     public abstract class BaseApiResponse
     {
-        [JsonProperty("pagination")]
+        [JsonPropertyName("pagination")]
         public Pagination Pagination { get; set; }
     }
 }

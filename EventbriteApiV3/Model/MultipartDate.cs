@@ -1,17 +1,17 @@
 ﻿using System;
-using Newtonsoft.Json;
+using System.Text.Json.Serialization;
 
 namespace EventbriteApiV3.Model
 {
     public class MultipartDate
     {
-        [JsonProperty("timezone")]
+        [JsonPropertyName("timezone")]
         public string Timezone { get; set; }
 
-        [JsonProperty("utc")]
+        [JsonPropertyName("utc")]
         public DateTime Utc { get; set; }
 
-        [JsonProperty("local")]
+        [JsonPropertyName("local")]
         public DateTime Local { get; set; }
     }
 }

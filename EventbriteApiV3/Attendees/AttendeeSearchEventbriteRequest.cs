@@ -1,4 +1,4 @@
-﻿using Newtonsoft.Json;
+﻿using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace EventbriteApiV3.Attendees
@@ -12,18 +12,11 @@ namespace EventbriteApiV3.Attendees
         {
 
         }
-
-        public AttendeeSearchApiResponse GetResponse()
-        {
-            var response = GetJsonResponse();
-
-            return JsonConvert.DeserializeObject<AttendeeSearchApiResponse>(response);
-        }
+     
         public async Task<AttendeeSearchApiResponse> GetResponseAsync()
         {
-            var response = await GetJsonResponseAsync();
-
-            return JsonConvert.DeserializeObject<AttendeeSearchApiResponse>(response);
+            using var str = await GetStreamResponseAsync();
+            return await JsonSerializer.DeserializeAsync<AttendeeSearchApiResponse>(str);
         }
     }
 }
